@@ -24,7 +24,7 @@ private static const GAME:int = 1;
 private static const RESULT: int =2;
 
 //initial stage:game
-private var state:int =GAME;
+private var state:int =ACTIVATION;
 
 //initialize screenBuffer
 public function Init():void

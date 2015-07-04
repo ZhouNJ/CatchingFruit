@@ -20,8 +20,8 @@ private function Draw_Activation(ellapsedTime:Number):void
   switch (activationState)
   {
 	case ACTIVATION_SHOW: 
-		Apply_FadeEffect(1 - activationTime); 
-		if (activationTime >= 1)
+		Apply_FadeEffect(FADE_EFFECT_TIME - activationTime); 
+		if (activationTime >= FADE_EFFECT_TIME)
 			ChangeState_Activation(ACTIVATION_WAIT);
 		break;
 	
@@ -29,7 +29,8 @@ private function Draw_Activation(ellapsedTime:Number):void
 		break; 
 	
 	case ACTIVATION_HIDE: 
-		if (activationTime >= 1)
+	
+		if (activationTime >= 1)//------------------?
 		{
 			state = GAME;
 			ChangeState_Game(GAME_SHOW);
@@ -68,7 +69,7 @@ private function Draw_ActivationButton():void
     activationButtonBitmap.draw(new activationButtonImg());
   }
   
-  screenBuffer.copyPixels(activationButtonImg,
+  screenBuffer.copyPixels(activationButtonBitmap,
 						new Rectangle(300,300,200,200),
 						new Point(300,300+(pressedOption != -1 ? -1:0) ));
 
@@ -83,6 +84,7 @@ private function MouseDown_Activation(event:MouseEvent):void
 	{
 		//PlaySound(OPTIONSELECTED_SOUND); 
 	}	
+
 }
 
 private function MouseUp_Activation(event:MouseEvent):void 
@@ -96,5 +98,4 @@ private function MouseUp_Activation(event:MouseEvent):void
 		pressedOption = 0;
 	}
 }
-
 

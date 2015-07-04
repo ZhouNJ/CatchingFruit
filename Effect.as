@@ -1,3 +1,5 @@
+private static const FADE_EFFECT_TIME:int = 1;
+
 private var fadeEffectBitmap:BitmapData = null;
 
 private function Apply_FadeEffect(factor:Number):void
