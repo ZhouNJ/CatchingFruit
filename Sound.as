@@ -1,4 +1,4 @@
-
+/*
 private static const OPTIONSIN_SOUND:int = 1;
 private static const OPTIONSOUT_SOUND:int = 2;
 private static const OPTIONSELECTED_SOUND:int = 3;
@@ -14,17 +14,12 @@ private function PlaySound(type:int) : void
 
   switch (type)
   {
-  case OPTIONSIN_SOUND:
-    sfx = new optionsInSnd() as Sound;
-    break;
-  case OPTIONSOUT_SOUND:
-    sfx = new optionsOutSnd() as Sound;
-    break;
-  case OPTIONSELECTED_SOUND:
-    sfx = new optionSelectedSnd() as Sound;
+	case OPTIONSELECTED_SOUND:
+		sfx = new optionSelectedSnd() as Sound;
     break; 
   }
 
   if (sfx != null)
     sfx.play(0,0,new SoundTransform(soundVolume));
 }
+*/
