@@ -20,14 +20,13 @@ private function Draw_Game(elapsedTime:Number):void
 		Draw_GameBackground();
 		Draw_ToBegin();
 		Draw_TimeAndScore(); 
-		
 		//fade in
 		Apply_FadeEffect(FADE_EFFECT_TIME - gameTime); 
-		
 		if (pressBegin == 0)
 			ChangeState_Game(GAME_PLAY);
 			pressBegin = -1;
 		break;
+		
 	case GAME_PLAY:
 		Draw_GameBackground();
 		Draw_TimeAndScore(); 
@@ -41,10 +40,8 @@ private function Draw_Game(elapsedTime:Number):void
 		Draw_GameBackground();
 		Draw_TimeAndScore();
 		Draw_TimesUp();
-		
 		//fade out
 		Apply_FadeEffect(gameTime);
-		
 		// Change to stage: showing results
 		if (gameTime >= 1)
 		{
@@ -63,65 +60,6 @@ private function ChangeState_Game(newState:int):void
   gameTime = 0;
 }
 
-// draw times and score of the game
-private var timeAndScoreBitmap:BitmapData = null;
-private function Draw_TimeAndScore():void
-{
-  if (timeAndScoreBitmap == null)
-  {
-    timeAndScoreBitmap = new BitmapData(SCREEN_WIDTH,SCREEN_HEIGHT,true,0x00000000);
-    timeAndScoreBitmap.draw(new timeAndScoreImg()); 
-  }
-
-  screenBuffer.copyPixels(timeAndScoreBitmap, 
-                          new Rectangle(0, 0, SCREEN_WIDTH, 150),
-                          new Point(0,0)); 
-}
-
-// draw times up message of the game
-private var timesUpBitmap:BitmapData = null;
-private function Draw_TimesUp():void
-{
-  if (timesUpBitmap == null)
-  {
-    timesUpBitmap = new BitmapData(SCREEN_WIDTH,SCREEN_HEIGHT,true,0x00000000);
-    timesUpBitmap.draw(new timesUpImg()); 
-  }
-
-  screenBuffer.copyPixels(timesUpBitmap, 
-                          new Rectangle(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT),
-                          new Point(0,0)); 
-}
-
-//draw "press button to begin" of the game
-private var toBeginBitmap:BitmapData = null;
-private function Draw_ToBegin():void
-{
-  if (toBeginBitmap == null)
-  {
-    toBeginBitmap = new BitmapData(SCREEN_WIDTH,SCREEN_HEIGHT,true,0x00000000);
-    toBeginBitmap.draw(new toBeginImg()); 
-  }
-
-  screenBuffer.copyPixels(toBeginBitmap, 
-                          new Rectangle(0, 200, SCREEN_WIDTH, 400),
-                          new Point(0,200)); 
-}
-
-//draw background of the game
-private var gameBackgroundBitmap:BitmapData = null;
-private function Draw_GameBackground():void
-{
-  if (toBeginBitmap == null)
-  {
-    gameBackgroundBitmap = new BitmapData(SCREEN_WIDTH,SCREEN_HEIGHT,true,0x00000000);
-    gameBackgroundBitmap.draw(new gameBackgroundImg()); 
-  }
-
-  screenBuffer.copyPixels(gameBackgroundBitmap, 
-                          new Rectangle(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT),
-                          new Point(0,0)); 
-}
 
 
 //handling mouse event according to different stage

@@ -13,34 +13,6 @@ private function Draw_Result(elapsedTime:Number):void
 		PressResult = -1;
 }
 
-//draw play again message
-private var playAgainBitmap:BitmapData = null;
-private function Draw_PlayAgain():void
-{
-  if (playAgainBitmap == null)
-  {
-    playAgainBitmap = new BitmapData(SCREEN_WIDTH,SCREEN_HEIGHT,true,0x00000000);
-    playAgainBitmap.draw(new playAgainImg()); 
-  }
-
-  screenBuffer.copyPixels(playAgainBitmap, 
-                          new Rectangle(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT),
-                          new Point(0,0)); 
-}
-
-private var resultScoreBitmap:BitmapData = null;
-private function Draw_ResultScore():void
-{
-  if (playAgainBitmap == null)
-  {
-    resultScoreBitmap = new BitmapData(SCREEN_WIDTH,SCREEN_HEIGHT,true,0x00000000);
-    resultScoreBitmap.draw(new resultScoreImg()); 
-  }
-
-  screenBuffer.copyPixels(resultScoreBitmap, 
-                          new Rectangle(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT),
-                          new Point(0,0)); 
-}
 
 //handling mouse event according to different stage
 private function MouseDown_Result(event:MouseEvent):void 

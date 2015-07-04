@@ -45,36 +45,6 @@ private function ChangeState_Activation(newState:int):void
   activationTime = 0;
 }
 
-private var titleScreenBitmap:BitmapData = null;
-private function Draw_TitleScreen():void
-{
-  if (titleScreenBitmap == null)
-  {
-    titleScreenBitmap = new BitmapData(SCREEN_WIDTH,SCREEN_HEIGHT);
-    titleScreenBitmap.draw(new titleScreenImg()); 
-  }
-
-  screenBuffer.copyPixels(titleScreenBitmap, 
-                          new Rectangle(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT),
-                          new Point(0,0)); 
-}
-
-
-private var activationButtonBitmap:BitmapData = null;
-private function Draw_ActivationButton():void
-{
-  if (activationButtonBitmap == null)
-  {
-    activationButtonBitmap = new BitmapData(SCREEN_WIDTH,SCREEN_HEIGHT,true,0x00000000);
-    activationButtonBitmap.draw(new activationButtonImg());
-  }
-  
-  screenBuffer.copyPixels(activationButtonBitmap,
-						new Rectangle(300,300,200,200),
-						new Point(300,300+(pressedOption != -1 ? -1:0) ));
-
- 
-}
 
 
 private function MouseDown_Activation(event:MouseEvent):void 
