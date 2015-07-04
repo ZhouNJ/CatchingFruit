@@ -10,8 +10,7 @@
 [Embed(source="Images/TimeAndScore.png")] private var timeAndScoreImg:Class;
 //6
 [Embed(source="Images/ToBegin.png")] private var toBeginImg:Class;
-//7
-[Embed(source="Images/Basket.png")] private var basketImg:Class;
+
 //8
 [Embed(source="Images/TimesUp.png")] private var timesUpImg:Class;
 //9

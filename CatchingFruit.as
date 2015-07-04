@@ -3,11 +3,11 @@ import flash.events.*;
 import mx.events.*;
 import mx.controls.*;
 import flash.external.ExternalInterface;
+import Classes.*;
 
 import flash.text.*;
 import flash.utils.Timer;
 import flash.utils.getDefinitionByName;
-
 
 include "Game.as";
 include "Effect.as";

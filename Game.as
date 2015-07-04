@@ -9,11 +9,25 @@ private var gameTime:Number = 0;
 
 private var pressBegin:int = -1;
 
+private	var basket:Basket = null;
+private	var score:int = 0;
+private	var speed:Number = 7.0
+private var level:int = 0;
+
+private function New_Game():void
+{  
+	level = 1;
+	basket = new Basket(); 
+	var nextObject:Timer;
+	var fruits:Array = new Array();
+
+	//ChangeState_Game(GAME_SHOW);
+}
 
 private function Draw_Game(elapsedTime:Number):void
 {
   gameTime += elapsedTime;
- 
+   
   switch (gameState)
   {
 	case GAME_SHOW:
@@ -31,6 +45,7 @@ private function Draw_Game(elapsedTime:Number):void
 		Draw_GameBackground();
 		Draw_TimeAndScore(); 
 		//game code
+		Catching(gameTime);		
 		
 		if (gameTime >= GAME_TOTAL_TIME)
 			ChangeState_Game(GAME_TIMES_UP);
@@ -60,7 +75,13 @@ private function ChangeState_Game(newState:int):void
   gameTime = 0;
 }
 
+private function Catching(elapsedTime:Number):void
+{
+	var mx:int = mouseX;
+	const my:int = SCREEN_HEIGHT -100;
 
+	basket.draw(screenBuffer,mx,my);
+}
 
 //handling mouse event according to different stage
 private function MouseDown_Game(event:MouseEvent):void 

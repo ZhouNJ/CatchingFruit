@@ -33,7 +33,7 @@ private function Draw_Activation(elapsedTime:Number):void
 		if (activationTime >= 1)//------------------?
 		{
 			state = GAME;
-			ChangeState_Game(GAME_SHOW);
+			New_Game();
 		} 
 		break; 
   } 
