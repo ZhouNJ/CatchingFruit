@@ -14,14 +14,8 @@ private function PlaySound(type:int) : void
 
   switch (type)
   {
-  case OPTIONSIN_SOUND:
-    sfx = new optionsInSnd() as Sound;
-    break;
-  case OPTIONSOUT_SOUND:
-    sfx = new optionsOutSnd() as Sound;
-    break;
-  case OPTIONSELECTED_SOUND:
-    sfx = new optionSelectedSnd() as Sound;
+	case OPTIONSELECTED_SOUND:
+		sfx = new optionSelectedSnd() as Sound;
     break; 
   }
 
