@@ -7,6 +7,8 @@
 [Embed(source="Images/PlayAgain.png")] private var playAgainImg:Class;
 [Embed(source="Images/Blacket.png")] private var blacketImg:Class;
 [Embed(source="Images/TimesUp.png")] private var timesUpImg:Class;
+[Embed(source="Images/ResultScore.png")] private var resultScoreImg:Class;
+
 
 [Embed(source="Images/fruit1.png")] private var fruit1Img:Class;
 [Embed(source="Images/fruit2.png")] private var fruit2Img:Class;

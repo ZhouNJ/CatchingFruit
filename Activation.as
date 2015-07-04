@@ -10,9 +10,9 @@ private var pressedOption:int = -1;
 
 
 
-private function Draw_Activation(ellapsedTime:Number):void
+private function Draw_Activation(elapsedTime:Number):void
 { 
-  activationTime += ellapsedTime;
+  activationTime += elapsedTime;
 
   Draw_TitleScreen();
   Draw_ActivationButton(); 

@@ -2,7 +2,7 @@ private static const GAME_SHOW:int = 1;
 private static const GAME_PLAY:int = 2;
 private static const GAME_TIMES_UP:int = 3;
 
-private static const GAME_TIME:int = 60;
+private static const GAME_TOTAL_TIME:int = 6;
 
 private var gameState:int = GAME_SHOW;
 private var gameTime:Number = 0;
@@ -21,27 +21,36 @@ private function Draw_Game(elapsedTime:Number):void
 		Draw_ToBegin();
 		Draw_TimeAndScore(); 
 		
-		//
+		//fade in
 		Apply_FadeEffect(FADE_EFFECT_TIME - gameTime); 
 		
 		if (pressBegin == 0)
 			ChangeState_Game(GAME_PLAY);
+			pressBegin = -1;
 		break;
 	case GAME_PLAY:
 		Draw_GameBackground();
 		Draw_TimeAndScore(); 
 		//game code
+		
+		if (gameTime >= GAME_TOTAL_TIME)
+			ChangeState_Game(GAME_TIMES_UP);
 		break;
 
 	case GAME_TIMES_UP:
+		Draw_GameBackground();
 		Draw_TimeAndScore();
 		Draw_TimesUp();
 		
+		//fade out
 		Apply_FadeEffect(gameTime);
 		
 		// Change to stage: showing results
 		if (gameTime >= 1)
+		{
+			ChangeState_Game(GAME_PLAY);
 			state = RESULT;
+		}
 		break;       
   }
 }
@@ -70,12 +79,12 @@ private function Draw_TimeAndScore():void
 }
 
 // draw times up message of the game
-private var toBeginBitmap:BitmapData = null;
+private var timesUpBitmap:BitmapData = null;
 private function Draw_TimesUp():void
 {
-  if (toBeginBitmap == null)
+  if (timesUpBitmap == null)
   {
-    timesUpBitmap = new BitmapData(SCREEN_WIDTH,SCREEN_HEIGHT);
+    timesUpBitmap = new BitmapData(SCREEN_WIDTH,SCREEN_HEIGHT,true,0x00000000);
     timesUpBitmap.draw(new timesUpImg()); 
   }
 
@@ -85,7 +94,7 @@ private function Draw_TimesUp():void
 }
 
 //draw "press button to begin" of the game
-private var timesUpBitmap:BitmapData = null;
+private var toBeginBitmap:BitmapData = null;
 private function Draw_ToBegin():void
 {
   if (toBeginBitmap == null)

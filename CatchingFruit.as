@@ -115,7 +115,7 @@ private function MouseMoved(event:MouseEvent):void
 		MouseMoved_Game(event);
 		break;
 	case RESULT:
-		MouseDown_Result(event);
+		MouseMoved_Result(event);
 		break;
   }
 }
