@@ -1,26 +1,39 @@
+//three state in Game: show /play /time's up
 private static const GAME_SHOW:int = 1;
 private static const GAME_PLAY:int = 2;
 private static const GAME_TIMES_UP:int = 3;
 
+// define the play time here
 private static const GAME_TOTAL_TIME:int = 6;
 
+// initial Game state is show
 private var gameState:int = GAME_SHOW;
+
+//count different time from begining of each game state 
 private var gameTime:Number = 0;
+
+//fruit drop one by one when playing
 private var timeBetweenFruits:Number = 0;
+
+//the second lastest fruit
 private var prevFruitTime:Number = 0;
 
+//check if the palyer is ready 
 private var pressBegin:int = -1;
 
+//basket class
 private	var basket:Basket 	= null;
+//fruit class
 private	var newFruit:Fruits = null;
 
+//array holds all dropping fruits
 private var fruits:Array = new Array();
 
+//game parameters
 private	var score:int ;
 private	var speed:Number ;
 private var level:int ;
 
-private var nextFruit:Timer;
 
 private static const WATERMELON:int		= 0;
 private static const STRAWBERRY:int		= 1;
@@ -53,7 +66,6 @@ private function New_Game(gameLevel:int):void
 	fruits.splice(0,fruits.length);
 	basket = new Basket();
 	timeBetweenFruits = Math.random();
-	//ChangeState_Game(GAME_SHOW);
 }
 
 private function Draw_Game(elapsedTime:Number):void
@@ -76,7 +88,7 @@ private function Draw_Game(elapsedTime:Number):void
 	case GAME_PLAY:
 		Draw_GameBackground();
 		Draw_TimeAndScore(); 
-		//game code
+		//game playing code
 		Catching(elapsedTime);
 		DrawNumber_Game();
 		
@@ -100,6 +112,7 @@ private function Draw_Game(elapsedTime:Number):void
   }
 }
 
+//three state in Game: show /play /time's up
 private function ChangeState_Game(newState:int):void
 {
 //add sound effect here
@@ -108,6 +121,7 @@ private function ChangeState_Game(newState:int):void
   gameTime = 0;
 }
 
+//function control the game playing
 private function Catching(elapsedTime:Number):void
 {
 	basket.mx = mouseX;
@@ -124,6 +138,7 @@ private function Catching(elapsedTime:Number):void
 	Catching_MoveFruits();
 }
 
+// set next fruit according to time elapsed since last fruit drop
 private function Catching_SetNextFruit(elapsedTime:Number):void
 {
 	prevFruitTime += elapsedTime;
@@ -134,14 +149,17 @@ private function Catching_SetNextFruit(elapsedTime:Number):void
 	}
 }
 
-
+//create new fruit to drop down
 private function Catching_NewFruit():void
 {
+	//good fruits has vit D
 	var goodFruits:Array = [WATERMELON,STRAWBERRY,POMEGRANATE,PINEAPPLE,PEACH,
 							ORANGE,NUT,MANGO,FLG];
+	//bad fruit is a boom
 	var badFruits:Array	=[BOOM,BOOM,BOOM,BOOM,BOOM];
 	var r:int = 0;
 	
+	//create different fruit classes randomly
 	if (Math.random()<.5){
 		r = Math.floor(Math.random()*goodFruits.length);
 		newFruit = new Fruits(goodFruits[r]);
@@ -154,9 +172,13 @@ private function Catching_NewFruit():void
 	
 	timeBetweenFruits = 0.5+Math.random();
 	newFruit.mx = Math.random()*800;
+	//push new fruit to the  array of dropping fruits
 	fruits.push(newFruit);
 }
 
+//control the movement of the fruits
+// and remove fruits that dropped out of screen or collected by basket
+// also count scores
 private function Catching_MoveFruits():void
 {
 	for(var i:int=fruits.length-1;i>=0;i--)
@@ -177,13 +199,13 @@ private function Catching_MoveFruits():void
 			}
 			if (score < 0) score = 0;
 			
-			//scoreDisplay.text = "Score: "+ score;
 		fruits.splice(i,1);
 		}
 
 	}	
 }
 
+// to see whether a fruit is collect by basket or not
 private function Catching_HitTest(fruit:Fruits,basket:Basket):Boolean
 {
 
@@ -193,12 +215,14 @@ private function Catching_HitTest(fruit:Fruits,basket:Basket):Boolean
 	return false;
 }
 
+//draw Time and score
 private function DrawNumber_Game():void
 {
 		playTime = new ScoreAndTime(GAME_TOTAL_TIME-int(gameTime),
 									TIME_POS_X,
 									TIME_POS_Y);
 		playTime.draw(screenBuffer);
+		
 		playScore = new ScoreAndTime(score,
 									SCORE_POS_X,
 									SCORE_POS_Y);
@@ -220,5 +244,5 @@ private function MouseUp_Game(event:MouseEvent):void
 //handling mouse event according to different stage
 private function MouseMoved_Game(event:MouseEvent):void 
 {
-
+//do nothing
 }
