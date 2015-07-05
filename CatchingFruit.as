@@ -28,7 +28,7 @@ private static const ACTIVATION:int = 0;
 private static const GAME:int = 1;
 private static const RESULT: int =2;
 
-//initial stage:game
+//initial stage:Activation
 private var state:int =ACTIVATION;
 
 //initialize screenBuffer
@@ -50,11 +50,13 @@ private function UpdateFrame():void
 	var currTime:Date = new Date();
 	var elapsedTime:Number = 0;
 	
+	//get elapsedTime between two frames
 	if(prevTime != null)
 		elapsedTime = (currTime.getTime() - prevTime.getTime())/1000.0;
 	
 	prevTime = currTime;
 	
+	//draw the screen content
 	Draw(elapsedTime);
 	
 	gamePanel.graphics.clear(); 
@@ -63,6 +65,7 @@ private function UpdateFrame():void
 	gamePanel.graphics.endFill(); 
 }
 
+//draw screen content accoding to different state
 private function Draw(elapsedTime:Number):void
 {
   switch (state)
