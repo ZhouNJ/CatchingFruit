@@ -12,7 +12,8 @@ private function Apply_FadeEffect(factor:Number):void
 
   if (factor > 0.95)
     factor = 0.95;
-
+  
+  //apply different transparance accoding to factor
   for (var i:int = 0; i < 20; i++)
     screenBuffer.copyPixels(fadeEffectBitmap,
                             new Rectangle(0, (int)(factor * 20) * 30, SCREEN_WIDTH, 30),
