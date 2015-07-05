@@ -158,7 +158,7 @@ private function Draw_PlayAgain():void
 
   screenBuffer.copyPixels(playAgainBitmap, 
                           new Rectangle(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT),
-                          new Point(0,0)); 
+                          new Point(-150,0)); 
 }
 
 

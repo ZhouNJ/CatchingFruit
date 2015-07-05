@@ -6,22 +6,53 @@ private static const GAME_TOTAL_TIME:int = 6;
 
 private var gameState:int = GAME_SHOW;
 private var gameTime:Number = 0;
+private var timeBetweenFruits:Number = 0;
+private var prevFruitTime:Number = 0;
 
 private var pressBegin:int = -1;
 
-private	var basket:Basket = null;
-private	var score:int = 0;
-private	var speed:Number = 7.0
-private var level:int = 0;
+private	var basket:Basket 	= null;
+private	var newFruit:Fruits = null;
 
-private var nextFruit:Timer;
 private var fruits:Array = new Array();
 
-private function New_Game():void
-{  
-	level = 1;
-	basket = new Basket(); 
+private	var score:int ;
+private	var speed:Number ;
+private var level:int ;
 
+private var nextFruit:Timer;
+
+private static const WATERMELON:int		= 0;
+private static const STRAWBERRY:int		= 1;
+private static const POMEGRANATE:int	= 2;
+private static const PINEAPPLE:int		= 3;
+private static const PEACH:int			= 4;
+private static const BOOM:int			= 5;
+private static const ORANGE:int			= 6;
+private static const NUT:int			= 7;
+private static const MANGO:int			= 8;
+private static const FLG:int			= 9;
+
+private static const GOODOBJECT:int			= 0;
+private static const BADOBJECT:int			= 1;
+
+private static const TIME_POS_X:int			= 130;
+private static const TIME_POS_Y:int			= 27;
+private var playTime:ScoreAndTime	= null;
+
+private static const SCORE_POS_X:int			= 680;
+private static const SCORE_POS_Y:int			= 27;
+private var playScore:ScoreAndTime	= null;
+
+
+private function New_Game(gameLevel:int):void
+{  
+	level = gameLevel;
+	score = 0;
+	speed = 5.0+gameLevel*2;
+	fruits.splice(0,fruits.length);
+	basket = new Basket();
+	timeBetweenFruits = Math.random();
 	//ChangeState_Game(GAME_SHOW);
 }
 
@@ -46,7 +77,8 @@ private function Draw_Game(elapsedTime:Number):void
 		Draw_GameBackground();
 		Draw_TimeAndScore(); 
 		//game code
-		Catching(gameTime);		
+		Catching(elapsedTime);
+		DrawNumber_Game();
 		
 		if (gameTime >= GAME_TOTAL_TIME)
 			ChangeState_Game(GAME_TIMES_UP);
@@ -78,68 +110,67 @@ private function ChangeState_Game(newState:int):void
 
 private function Catching(elapsedTime:Number):void
 {
-	basket.x = mouseX;
-	basket.y = SCREEN_HEIGHT -100;
+	basket.mx = mouseX;
+	basket.my = SCREEN_HEIGHT -100;
 	
 	basket.draw(screenBuffer);
-	Catching_SetNextFruit();
-	Catching_MoveFruits();
-}
-
-private function Catching_SetNextFruit():void
-{
-
-	nextFruit = new Timer (1000+Math.random()*1000,1);
-	nextFruit.addEventListener(TimerEvent.TIMER_COMPLETE,Catching_NewFruit);
-	nextFruit.start();
-
-}
-
-private function Catching_NewFruit(e:Event):void
-{
-
-	var goodFruits:Array = ["Flg",
-							"Orange",
-							"Peach",
-							"Watermelon",
-							"Mango"];
-							
-	var badFruits:Array = ["Nut",
-							"Pineapple",
-							"Ponegranate",
-							"Strawberry",
-							"PeachB"];
-	if (Math.random()<.5){
-		var r:int = Math.floor(Math.random()*goodFruits.length);
-		var classRef:Class = getDefinitionByName("Classes."+goodFruits[r]) as Class;
-		var newFruit:MovieClip = new classRef(); 
-		newFruit.typestr = "good";
-	} else {
-		r = Math.floor(Math.random()*badFruits.length);
-		classRef = getDefinitionByName(badFruits[r]) as Class;
-		newFruit = new classRef(); 
-		newFruit.typestr = "bad";
-	}
-	newFruit.x = Math.random()*800;
-	fruits.push(newFruit);
+	Catching_SetNextFruit(elapsedTime);
+	
 	for(var i:int=0; i<fruits.length;i++)
 	{
 		fruits[i].draw(screenBuffer);
 	}
-	Catching_SetNextFruit();
+	
+	Catching_MoveFruits();
+}
 
+private function Catching_SetNextFruit(elapsedTime:Number):void
+{
+	prevFruitTime += elapsedTime;
+	if (prevFruitTime >= timeBetweenFruits)
+	{
+		Catching_NewFruit();
+		prevFruitTime = 0;
+	}
+}
+
+
+private function Catching_NewFruit():void
+{
+	var goodFruits:Array = [WATERMELON,STRAWBERRY,POMEGRANATE,PINEAPPLE,PEACH,
+							ORANGE,NUT,MANGO,FLG];
+	var badFruits:Array	=[BOOM,BOOM,BOOM,BOOM,BOOM];
+	var r:int = 0;
+	
+	if (Math.random()<.5){
+		r = Math.floor(Math.random()*goodFruits.length);
+		newFruit = new Fruits(goodFruits[r]);
+		newFruit.typeStr = GOODOBJECT;
+	} else {
+		r = Math.floor(Math.random()*goodFruits.length);
+		newFruit = new Fruits(badFruits[r]);
+		newFruit.typeStr = BADOBJECT;
+	}
+	
+	timeBetweenFruits = 0.5+Math.random();
+	newFruit.mx = Math.random()*800;
+	fruits.push(newFruit);
 }
 
 private function Catching_MoveFruits():void
 {
-	for(var i:int=fruits.length-1;i>=0;i--) {
-		fruits[i].y += speed;
-		if (fruits[i].y > 400) {
+	for(var i:int=fruits.length-1;i>=0;i--)
+	{
+		fruits[i].my += speed;
+		if (fruits[i].my > 550)
+		{
 			fruits.splice(i,1);
 		}
 		
-		if (fruits[i].hitTestObject(basket)) {
-			if (fruits[i].typestr == "good") {
+		if(fruits[i]!=null && basket!=null)
+		if ( Catching_HitTest(fruits[i],basket) )
+		{
+			if (fruits[i].typeStr == GOODOBJECT) {
 				score += 5;
 			} else {
 				score -= 1;
@@ -147,10 +178,31 @@ private function Catching_MoveFruits():void
 			if (score < 0) score = 0;
 			
 			//scoreDisplay.text = "Score: "+ score;
-			fruits.splice(i,1);
+		fruits.splice(i,1);
 		}
-	}	
 
+	}	
+}
+
+private function Catching_HitTest(fruit:Fruits,basket:Basket):Boolean
+{
+
+	if (basket.mx <= fruit.mx && basket.mx+80 >=fruit.mx)
+		if(basket.my <= fruit.my+25 && basket.my +20 >= fruit.my+25)
+			return true;
+	return false;
+}
+
+private function DrawNumber_Game():void
+{
+		playTime = new ScoreAndTime(GAME_TOTAL_TIME-int(gameTime),
+									TIME_POS_X,
+									TIME_POS_Y);
+		playTime.draw(screenBuffer);
+		playScore = new ScoreAndTime(score,
+									SCORE_POS_X,
+									SCORE_POS_Y);
+		playScore.draw(screenBuffer);
 }
 
 //handling mouse event according to different stage

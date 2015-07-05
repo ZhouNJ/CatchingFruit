@@ -3,6 +3,9 @@ private static const ACTIVATION_SHOW:int = 1;
 private static const ACTIVATION_WAIT:int = 2;
 private static const ACTIVATION_HIDE:int = 3;
 
+private static const ACTIVATION_GAME_LEVEL:int = 1;
+
+
 private var activationState:int = ACTIVATION_SHOW;
 private var activationTime:Number = 0;
 
@@ -33,7 +36,7 @@ private function Draw_Activation(elapsedTime:Number):void
 		if (activationTime >= 1)//------------------?
 		{
 			state = GAME;
-			New_Game();
+			New_Game(ACTIVATION_GAME_LEVEL);
 		} 
 		break; 
   } 

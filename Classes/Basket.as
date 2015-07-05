@@ -3,7 +3,7 @@ package Classes
 	import flash.geom.*;
 	import flash.display.*;
 	
-	public class Basket
+	public class Basket extends MovieClip
 	{
 		public function Basket()
 		{
@@ -13,8 +13,8 @@ package Classes
 		//7
 		[Embed(source="../Images/Basket.png")] private var basketImg:Class;
 		private var bitmap:BitmapData = null;
-		public var x:int = 0;
-		public var y:int = 0;
+		public var mx:int = 0;
+		public var my:int = 0;
 		public function draw(screenBuffer:BitmapData):void
 		{
 			if (bitmap == null)
@@ -24,7 +24,7 @@ package Classes
 			}
 			screenBuffer.copyPixels(bitmap,
                                     new Rectangle(0,0,160,80),
-                                    new Point(x-80,y)); 
+                                    new Point(mx-80,my)); 
 		}
 	}
 }
