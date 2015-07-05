@@ -11,33 +11,13 @@
 //6
 [Embed(source="Images/ToBegin.png")] private var toBeginImg:Class;
 
-//8
+//7
 [Embed(source="Images/TimesUp.png")] private var timesUpImg:Class;
-//9
+//8
 [Embed(source="Images/ResultScore.png")] private var resultScoreImg:Class;
-//10
+//9
 [Embed(source="Images/PlayAgain.png")] private var playAgainImg:Class;
 
-//f1
-[Embed(source="Images/fruit1.png")] private var fruit1Img:Class;
-//f2
-[Embed(source="Images/fruit2.png")] private var fruit2Img:Class;
-//f3
-[Embed(source="Images/fruit3.png")] private var fruit3Img:Class;
-//f4
-[Embed(source="Images/fruit4.png")] private var fruit4Img:Class;
-//f5
-[Embed(source="Images/fruit5.png")] private var fruit5Img:Class;
-//f6
-[Embed(source="Images/fruit6.png")] private var fruit6Img:Class;
-//f7
-[Embed(source="Images/fruit7.png")] private var fruit7Img:Class;
-//f8
-[Embed(source="Images/fruit8.png")] private var fruit8Img:Class;
-//f9
-[Embed(source="Images/fruit9.png")] private var fruit9Img:Class;
-//f10
-[Embed(source="Images/fruit10.png")] private var fruit10Img:Class;
 
 //1
 //stage: Activation
@@ -130,10 +110,6 @@ private function Draw_ToBegin():void
 }
 
 //7
-//Stage : game,
-// Basket
-
-//8
 // Stage : game,
 // Time's Up
 private var timesUpBitmap:BitmapData = null;
@@ -150,7 +126,7 @@ private function Draw_TimesUp():void
                           new Point(0,0)); 
 }
 
-//9
+//8
 //stage: result
 //Score
 private var resultScoreBitmap:BitmapData = null;
@@ -168,7 +144,7 @@ private function Draw_ResultScore():void
 }
 
 
-//10
+//9
 //stage: result
 //play again
 private var playAgainBitmap:BitmapData = null;

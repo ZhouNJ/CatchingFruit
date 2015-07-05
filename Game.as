@@ -14,12 +14,13 @@ private	var score:int = 0;
 private	var speed:Number = 7.0
 private var level:int = 0;
 
+private var nextFruit:Timer;
+private var fruits:Array = new Array();
+
 private function New_Game():void
 {  
 	level = 1;
 	basket = new Basket(); 
-	var nextObject:Timer;
-	var fruits:Array = new Array();
 
 	//ChangeState_Game(GAME_SHOW);
 }
@@ -77,10 +78,79 @@ private function ChangeState_Game(newState:int):void
 
 private function Catching(elapsedTime:Number):void
 {
-	var mx:int = mouseX;
-	const my:int = SCREEN_HEIGHT -100;
+	basket.x = mouseX;
+	basket.y = SCREEN_HEIGHT -100;
+	
+	basket.draw(screenBuffer);
+	Catching_SetNextFruit();
+	Catching_MoveFruits();
+}
 
-	basket.draw(screenBuffer,mx,my);
+private function Catching_SetNextFruit():void
+{
+
+	nextFruit = new Timer (1000+Math.random()*1000,1);
+	nextFruit.addEventListener(TimerEvent.TIMER_COMPLETE,Catching_NewFruit);
+	nextFruit.start();
+
+}
+
+private function Catching_NewFruit(e:Event):void
+{
+
+	var goodFruits:Array = ["Flg",
+							"Orange",
+							"Peach",
+							"Watermelon",
+							"Mango"];
+							
+	var badFruits:Array = ["Nut",
+							"Pineapple",
+							"Ponegranate",
+							"Strawberry",
+							"PeachB"];
+	if (Math.random()<.5){
+		var r:int = Math.floor(Math.random()*goodFruits.length);
+		var classRef:Class = getDefinitionByName("Classes."+goodFruits[r]) as Class;
+		var newFruit:MovieClip = new classRef(); 
+		newFruit.typestr = "good";
+	} else {
+		r = Math.floor(Math.random()*badFruits.length);
+		classRef = getDefinitionByName(badFruits[r]) as Class;
+		newFruit = new classRef(); 
+		newFruit.typestr = "bad";
+	}
+	newFruit.x = Math.random()*800;
+	fruits.push(newFruit);
+	for(var i:int=0; i<fruits.length;i++)
+	{
+		fruits[i].draw(screenBuffer);
+	}
+	Catching_SetNextFruit();
+
+}
+
+private function Catching_MoveFruits():void
+{
+	for(var i:int=fruits.length-1;i>=0;i--) {
+		fruits[i].y += speed;
+		if (fruits[i].y > 400) {
+			fruits.splice(i,1);
+		}
+		
+		if (fruits[i].hitTestObject(basket)) {
+			if (fruits[i].typestr == "good") {
+				score += 5;
+			} else {
+				score -= 1;
+			}
+			if (score < 0) score = 0;
+			
+			//scoreDisplay.text = "Score: "+ score;
+			fruits.splice(i,1);
+		}
+	}	
+
 }
 
 //handling mouse event according to different stage
