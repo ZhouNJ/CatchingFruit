@@ -16,6 +16,9 @@ private function Draw_Result(elapsedTime:Number):void
 	Draw_Score_Result();
 	Draw_PlayAgain();
 	
+	// play same level again or play next level(speed is faster)
+	// no level limits
+	// !!!!-------------------------------------problem may occur when fruits drop too fast -------
 	switch(PressResult)
 	{
 		case PLAY_AGAIN:
@@ -35,6 +38,7 @@ private function Draw_Result(elapsedTime:Number):void
 	}
 }
 
+// draw score in result page
 private function Draw_Score_Result():void
 {
 		resultScore = new ScoreAndTime(score,
