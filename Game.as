@@ -4,7 +4,7 @@ private static const GAME_PLAY:int = 2;
 private static const GAME_TIMES_UP:int = 3;
 
 // define the play time here
-private static const GAME_TOTAL_TIME:int = 6;
+private static const GAME_TOTAL_TIME:int = 60;
 
 // initial Game state is show
 private var gameState:int = GAME_SHOW;
@@ -156,16 +156,16 @@ private function Catching_NewFruit():void
 	var goodFruits:Array = [WATERMELON,STRAWBERRY,POMEGRANATE,PINEAPPLE,PEACH,
 							ORANGE,NUT,MANGO,FLG];
 	//bad fruit is a boom
-	var badFruits:Array	=[BOOM,BOOM,BOOM,BOOM,BOOM];
+	var badFruits:Array	=[BOOM];
 	var r:int = 0;
 	
 	//create different fruit classes randomly
-	if (Math.random()<.5){
+	if (Math.random()<.7){
 		r = Math.floor(Math.random()*goodFruits.length);
 		newFruit = new Fruits(goodFruits[r]);
 		newFruit.typeStr = GOODOBJECT;
 	} else {
-		r = Math.floor(Math.random()*goodFruits.length);
+		r = Math.floor(Math.random()*badFruits.length);
 		newFruit = new Fruits(badFruits[r]);
 		newFruit.typeStr = BADOBJECT;
 	}
@@ -211,7 +211,19 @@ private function Catching_HitTest(fruit:Fruits,basket:Basket):Boolean
 
 	if (basket.mx <= fruit.mx && basket.mx+80 >=fruit.mx)
 		if(basket.my <= fruit.my+25 && basket.my +20 >= fruit.my+25)
+		{
+			switch (fruit.typeStr)
+			{
+				case GOODOBJECT:
+					PlaySound(GOODFRUITCATCHED); 
+				break;
+				case BADOBJECT:
+					PlaySound(BOOMCATCHED); 
+				break;
+			}
+
 			return true;
+		}
 	return false;
 }
 
@@ -238,7 +250,10 @@ private function MouseDown_Game(event:MouseEvent):void
 //handling mouse event according to different stage
 private function MouseUp_Game(event:MouseEvent):void 
 { 
-	pressBegin = 0;
+	if (gameState== GAME_SHOW)
+	{	PlaySound(PRESSBUTTON); 
+		pressBegin = 0;
+	}
 }
 
 //handling mouse event according to different stage

@@ -5,15 +5,14 @@ import mx.controls.*;
 import flash.external.ExternalInterface;
 import Classes.*;
 
+
 import flash.text.*;
-import flash.utils.Timer;
-import flash.utils.getDefinitionByName;
 
 include "Game.as";
 include "Effect.as";
 include "Result.as";
 include "Image.as";
-include "Sound.as";
+include "Sounds.as";
 include "Activation.as"
 
 //define width and height of the content window
@@ -27,6 +26,9 @@ private var screenBuffer:BitmapData = null;
 private static const ACTIVATION:int = 0;
 private static const GAME:int = 1;
 private static const RESULT: int =2;
+
+
+
 
 //initial stage:Activation
 private var state:int =ACTIVATION;

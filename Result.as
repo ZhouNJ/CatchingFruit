@@ -31,7 +31,10 @@ private function Draw_Result(elapsedTime:Number):void
 		case NEXT_LEVEL:
 		{
 			state = GAME;
-			New_Game(++level);
+			if(level >=6)
+				New_Game(level);
+			else 
+				New_Game(++level);
 			PressResult = -1;
 			break;
 		}
@@ -63,7 +66,8 @@ private function MouseUp_Result(event:MouseEvent):void
 {
 	var mx:int = mouseX;
 	var my:int = mouseY;
-	
+	PlaySound(PRESSBUTTON); 
+
 	if (mx>=0 && mx <= 300 && my >=300 && my <=500)
 		PressResult = PLAY_AGAIN;
 	else

@@ -65,7 +65,7 @@ private function MouseDown_Activation(event:MouseEvent):void
 
 	if (activationState == ACTIVATION_WAIT)
 	{
-		//PlaySound(OPTIONSELECTED_SOUND); 
+		
 	}	
 
 }
@@ -78,7 +78,7 @@ private function MouseUp_Activation(event:MouseEvent):void
     if (activationState == ACTIVATION_WAIT)
 	{
 		ChangeState_Activation(ACTIVATION_HIDE);
-		
+		PlaySound(PRESSBUTTON); 
 		//button pressed 
 		pressedOption = 0;
 	}
