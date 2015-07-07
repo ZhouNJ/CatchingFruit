@@ -81,7 +81,8 @@ private function Draw_Game(elapsedTime:Number):void
 	case GAME_SHOW:
 		Draw_GameBackground();
 		Draw_ToBegin();
-		Draw_TimeAndScore(); 
+		Draw_TimeAndScore();
+		Draw_Level_Result();		
 		//fade in
 		Apply_FadeEffect(FADE_EFFECT_TIME - gameTime); 
 		if (pressBegin == 0)
@@ -109,7 +110,8 @@ private function Draw_Game(elapsedTime:Number):void
 		// Change to stage: showing results
 		if (gameTime >= 1)
 		{
-			ChangeState_Game(GAME_PLAY);
+		//when time's up, restart from game show.
+			ChangeState_Game(GAME_SHOW);
 			state = RESULT;
 		}
 		break;       
