@@ -5,6 +5,7 @@ package Classes
 	
 	public class Basket extends MovieClip
 	{
+		public var hit:Boolean = false;
 		public function Basket()
 		{
 			
@@ -24,7 +25,7 @@ package Classes
 			}
 			screenBuffer.copyPixels(bitmap,
                                     new Rectangle(0,0,160,80),
-                                    new Point(mx-80,my)); 
+                                    new Point(mx-80,my+(hit == true ? -2 : 0))); 
 		}
 	}
 }

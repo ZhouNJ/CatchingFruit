@@ -17,6 +17,10 @@
 [Embed(source="Images/ResultScore.png")] private var resultScoreImg:Class;
 //9
 [Embed(source="Images/PlayAgain.png")] private var playAgainImg:Class;
+//10
+[Embed(source="Images/NextLevel.png")] private var nextLevelImg:Class;
+//11
+[Embed(source="Images/ResultLevel.png")] private var resultLevelImg:Class;
 
 
 //1
@@ -50,7 +54,7 @@ private function Draw_ActivationButton():void
   
   screenBuffer.copyPixels(activationButtonBitmap,
 						new Rectangle(300,300,200,200),
-						new Point(300,300+(pressedOption != -1 ? -1:0) ));
+						new Point(300+(pressedOption != -1 ? 2:0),300+(pressedOption != -1 ? 2:0) ));
 
  
 }
@@ -130,7 +134,7 @@ private function Draw_TimesUp():void
 //stage: result
 //Score
 private var resultScoreBitmap:BitmapData = null;
-private function Draw_ResultScore():void
+private function Draw_Score():void
 {
   if (playAgainBitmap == null)
   {
@@ -148,7 +152,7 @@ private function Draw_ResultScore():void
 //stage: result
 //play again
 private var playAgainBitmap:BitmapData = null;
-private function Draw_PlayAgain():void
+private function Draw_PlayAgain(pressed:Boolean):void
 {
   if (playAgainBitmap == null)
   {
@@ -158,9 +162,42 @@ private function Draw_PlayAgain():void
 
   screenBuffer.copyPixels(playAgainBitmap, 
                           new Rectangle(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT),
-                          new Point(-150,0)); 
+                          new Point(-150+(pressed == true ? -2:0),(pressed == true ? -2:0))); 
 }
 
+//10
+//stage: result
+//NEXT LEVEL
+private var nextLevelBitmap:BitmapData = null;
+private function Draw_NextLevel(pressed:Boolean):void
+{
+  if (nextLevelBitmap == null)
+  {
+    nextLevelBitmap = new BitmapData(SCREEN_WIDTH,SCREEN_HEIGHT,true,0x00000000);
+    nextLevelBitmap.draw(new nextLevelImg()); 
+  }
+
+  screenBuffer.copyPixels(nextLevelBitmap, 
+                          new Rectangle(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT),
+                          new Point(150+(pressed == true ? -2:0),(pressed == true ? -2:0))); 
+}
+
+//11
+//stage: result
+//Score
+private var resultLevelBitmap:BitmapData = null;
+private function Draw_Level():void
+{
+  if (resultLevelBitmap == null)
+  {
+    resultLevelBitmap = new BitmapData(SCREEN_WIDTH,SCREEN_HEIGHT,true,0x00000000);
+    resultLevelBitmap.draw(new resultLevelImg()); 
+  }
+
+  screenBuffer.copyPixels(resultLevelBitmap, 
+                          new Rectangle(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT),
+                          new Point(0,0)); 
+}
 
 
 

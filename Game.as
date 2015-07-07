@@ -4,7 +4,7 @@ private static const GAME_PLAY:int = 2;
 private static const GAME_TIMES_UP:int = 3;
 
 // define the play time here
-private static const GAME_TOTAL_TIME:int = 60;
+private static const GAME_TOTAL_TIME:int = 30;
 
 // initial Game state is show
 private var gameState:int = GAME_SHOW;
@@ -35,16 +35,17 @@ private	var speed:Number ;
 private var level:int ;
 
 
-private static const WATERMELON:int		= 0;
-private static const STRAWBERRY:int		= 1;
-private static const POMEGRANATE:int	= 2;
-private static const PINEAPPLE:int		= 3;
-private static const PEACH:int			= 4;
-private static const BOOM:int			= 5;
-private static const ORANGE:int			= 6;
-private static const NUT:int			= 7;
-private static const MANGO:int			= 8;
-private static const FLG:int			= 9;
+private static const EGG_ONE:int		= 0;
+private static const SUNLIGHT_ONE:int		= 1;
+private static const SALMON_ONE:int	= 2;
+private static const SALMON_TWO:int		= 3;
+private static const EGG_TWO:int			= 4;
+private static const DONGGU_ONE:int			= 5;
+private static const DONGGU_TWO:int			= 6;
+private static const EGG_THREE:int			= 7;
+private static const SUNLIGHT_TWO:int			= 8;
+private static const TUNA:int			= 9;
+private static const BOOM:int			= 10;
 
 private static const GOODOBJECT:int			= 0;
 private static const BADOBJECT:int			= 1;
@@ -57,12 +58,15 @@ private static const SCORE_POS_X:int			= 680;
 private static const SCORE_POS_Y:int			= 27;
 private var playScore:ScoreAndTime	= null;
 
+private static const NotHit:Boolean			= false;
+private static const Hit:Boolean			= true;
+
 
 private function New_Game(gameLevel:int):void
 {  
 	level = gameLevel;
 	score = 0;
-	speed = 5.0+gameLevel*2;
+	speed = 7.0+gameLevel*2;
 	fruits.splice(0,fruits.length);
 	basket = new Basket();
 	timeBetweenFruits = Math.random();
@@ -153,14 +157,14 @@ private function Catching_SetNextFruit(elapsedTime:Number):void
 private function Catching_NewFruit():void
 {
 	//good fruits has vit D
-	var goodFruits:Array = [WATERMELON,STRAWBERRY,POMEGRANATE,PINEAPPLE,PEACH,
-							ORANGE,NUT,MANGO,FLG];
+	var goodFruits:Array = [EGG_ONE,EGG_TWO,EGG_THREE,DONGGU_ONE,DONGGU_TWO,
+							TUNA,SALMON_ONE,SALMON_TWO,SUNLIGHT_ONE,SUNLIGHT_TWO,TUNA];
 	//bad fruit is a boom
 	var badFruits:Array	=[BOOM];
 	var r:int = 0;
 	
 	//create different fruit classes randomly
-	if (Math.random()<.7){
+	if (Math.random()<.8){
 		r = Math.floor(Math.random()*goodFruits.length);
 		newFruit = new Fruits(goodFruits[r]);
 		newFruit.typeStr = GOODOBJECT;
@@ -170,7 +174,8 @@ private function Catching_NewFruit():void
 		newFruit.typeStr = BADOBJECT;
 	}
 	
-	timeBetweenFruits = 0.5+Math.random();
+	//shorter interval between two fruits
+	timeBetweenFruits = 0.5/level+Math.random();
 	newFruit.mx = Math.random()*800;
 	//push new fruit to the  array of dropping fruits
 	fruits.push(newFruit);
@@ -193,9 +198,9 @@ private function Catching_MoveFruits():void
 		if ( Catching_HitTest(fruits[i],basket) )
 		{
 			if (fruits[i].typeStr == GOODOBJECT) {
-				score += 5;
+				score += 10;
 			} else {
-				score -= 1;
+				score -= 20;
 			}
 			if (score < 0) score = 0;
 			
@@ -209,8 +214,8 @@ private function Catching_MoveFruits():void
 private function Catching_HitTest(fruit:Fruits,basket:Basket):Boolean
 {
 
-	if (basket.mx <= fruit.mx && basket.mx+80 >=fruit.mx)
-		if(basket.my <= fruit.my+25 && basket.my +20 >= fruit.my+25)
+	if (basket.mx <= fruit.mx && basket.mx+90 >=fruit.mx)
+		if(basket.my <= fruit.my+45 && basket.my +20 >= fruit.my+45)
 		{
 			switch (fruit.typeStr)
 			{
@@ -221,9 +226,10 @@ private function Catching_HitTest(fruit:Fruits,basket:Basket):Boolean
 					PlaySound(BOOMCATCHED); 
 				break;
 			}
-
+			basket.hit = true;
 			return true;
 		}
+	basket.hit =false;
 	return false;
 }
 

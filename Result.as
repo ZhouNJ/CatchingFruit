@@ -3,18 +3,26 @@ private var resultTime:Number = 0;
 private static const PLAY_AGAIN:int			= 0;
 private static const NEXT_LEVEL:int			= 1;
 
+private var resultScore:ScoreAndTime	= null;
+private var resultLevel:ScoreAndTime	= null;
 private static const SCORE_RESULT_POS_X:int			= 400;
 private static const SCORE_RESULT_POS_Y:int			= 220;
-private var resultScore:ScoreAndTime	= null;
+
+private static const LEVEL_RESULT_POS_X:int			= 400;
+private static const LEVEL_RESULT_POS_Y:int			= 150;
+
+private static const BUTTON_PRESSED:Boolean = true;
+private static const BUTTON_NOT_PRESSED:Boolean = false;
 
 private function Draw_Result(elapsedTime:Number):void
 {
 	resultTime += elapsedTime;
 	
 	Draw_GameBackground();
-	Draw_ResultScore();
 	Draw_Score_Result();
-	Draw_PlayAgain();
+	Draw_Level_Result();
+	Draw_PlayAgain(BUTTON_NOT_PRESSED);
+	Draw_NextLevel(BUTTON_NOT_PRESSED);
 	
 	// play same level again or play next level(speed is faster)
 	// no level limits
@@ -23,6 +31,7 @@ private function Draw_Result(elapsedTime:Number):void
 	{
 		case PLAY_AGAIN:
 		{
+			Draw_PlayAgain(BUTTON_PRESSED);
 			state = GAME;
 			New_Game(level);
 			PressResult = -1;
@@ -30,8 +39,9 @@ private function Draw_Result(elapsedTime:Number):void
 		}
 		case NEXT_LEVEL:
 		{
+			Draw_NextLevel(BUTTON_PRESSED);
 			state = GAME;
-			if(level >=6)
+			if(level >=10)
 				New_Game(level);
 			else 
 				New_Game(++level);
@@ -44,12 +54,24 @@ private function Draw_Result(elapsedTime:Number):void
 // draw score in result page
 private function Draw_Score_Result():void
 {
+		Draw_Score();
 		resultScore = new ScoreAndTime(score,
 									SCORE_RESULT_POS_X,
 									SCORE_RESULT_POS_Y);
 		resultScore.draw(screenBuffer);
 
 }
+
+private function Draw_Level_Result():void
+{
+		Draw_Level();
+		resultLevel = new ScoreAndTime(level,
+									LEVEL_RESULT_POS_X,
+									LEVEL_RESULT_POS_Y);
+		resultLevel.draw(screenBuffer);
+
+}
+
 
 
 
