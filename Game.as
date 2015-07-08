@@ -58,9 +58,6 @@ private static const SCORE_POS_X:int			= 680;
 private static const SCORE_POS_Y:int			= 27;
 private var playScore:ScoreAndTime	= null;
 
-private static const NotHit:Boolean			= false;
-private static const Hit:Boolean			= true;
-
 
 private function New_Game(gameLevel:int):void
 {  
@@ -131,7 +128,9 @@ private function ChangeState_Game(newState:int):void
 private function Catching(elapsedTime:Number):void
 {
 	basket.mx = mouseX;
-	basket.my = SCREEN_HEIGHT -100;
+	
+	//------BASKET POSITION-------
+	basket.my = SCREEN_HEIGHT -140;
 	
 	basket.draw(screenBuffer);
 	Catching_SetNextFruit(elapsedTime);
@@ -217,14 +216,18 @@ private function Catching_HitTest(fruit:Fruits,basket:Basket):Boolean
 {
 
 	if (basket.mx <= fruit.mx && basket.mx+90 >=fruit.mx)
-		if(basket.my <= fruit.my+45 && basket.my +20 >= fruit.my+45)
+		if(basket.my <= fruit.my+5 && basket.my +20 >= fruit.my+5)
 		{
 			switch (fruit.typeStr)
 			{
 				case GOODOBJECT:
+					{
+					basket.boomOrNot = false;
 					PlaySound(GOODFRUITCATCHED); 
+					}
 				break;
 				case BADOBJECT:
+					basket.boomOrNot = true;
 					PlaySound(BOOMCATCHED); 
 				break;
 			}
